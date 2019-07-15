@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { Provider } from "react-redux";
+import store from "./lib/redux";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import InboxScreen from "./components/InboxScreen";
+
+// import NewMessageForm from "./NewMessageForm";
+// import MessageList from './MessageList';
+
+class App extends Component {
+  state = { messages: [] };
+
+  handleSend = newMessage => {
+    console.log("newMessage", newMessage);
+    this.setState(state => ({
+      messages: [newMessage, ...state.messages]
+    }));
+  };
+
+  /* {
+    <div>
+    <NewMessageForm onSend={this.handleSend} />
+    <MessageList data={messages} />
+  </div>
+  } */
+
+  render() {
+    const { messages } = this.state;
+    return (
+      <Provider store={store}>
+        <InboxScreen />
+      </Provider>
+    );
+  }
 }
 
 export default App;
